@@ -1,0 +1,17 @@
+#include <fstream>
+
+template <typename T>
+
+void binaerSchreiben(std::ofstream &out, T &data){
+    out.write((char*) &data, sizeof(T));
+}
+
+static void stringBinaerSchreiben(std::ofstream &out, std::string &strData){
+    size_t strDataSize = strData.size();
+    out.write((char*) &strDataSize, sizeof(size_t));
+    out.write(strData.c_str(), strDataSize);
+}
+template <typename T>
+void binaerLesen(std::ifstream &in, T &data){
+    in.read((char*) &data, sizeof(T));
+}
