@@ -13,6 +13,7 @@ PRE_TARGETDEPS += $$OUT_PWD/../Nationalpark/debug/libNationalpark.a
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    hilffunktionenGUI.cpp \
     main.cpp \
     mainwindow.cpp
 

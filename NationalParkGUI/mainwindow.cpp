@@ -7,6 +7,12 @@
 #include "saeugetier.h"
 #include "vogel.h"
 #include "reptil.h"
+#include "personalliste.h"
+#include "angestellter.h"
+#include "ranger.h"
+#include "verwaltung.h"
+#include "wissenschaftler.h"
+#include "hilffunktionenGUI.cpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -195,36 +201,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_saeugetierPushButton_clicked()
 {
-    QString q_bezeichnung = ui->nameWildtierLineEdit->text();
     bool valid = true;
-    bool ok1, ok2, ok3;
-    q_bezeichnung.toDouble(&ok1);
-    if (ok1 || q_bezeichnung.isEmpty()){
-        ui->nameWildtierLineEdit->setText("Falsch");
-        valid = false;
-    }
-    std::string bezeichnung = q_bezeichnung.toStdString();
+    std::string bezeichnung;
+    aufStringPruefen(ui->nameWildtierLineEdit, valid, bezeichnung);
 
-    QString q_alter = ui->alterWildtierLineEdit->text();
-    q_alter.toDouble(&ok2);
-    if (!ok2 || q_bezeichnung.isEmpty()){
-        ui->alterWildtierLineEdit->setText("Falsch");
-        valid = false;
-    }
-    int alter = q_alter.toInt();
+    int alter;
+    aufIntZahlPruefen(ui->alterWildtierLineEdit, valid, alter);
 
-    QString q_fellfarbe = ui->fellfarbeLineEdit->text();
-    q_fellfarbe.toDouble(&ok3);
-    if (ok3 || q_fellfarbe.isEmpty()){
-        ui->fellfarbeLineEdit->setText("Falsch");
-        valid = false;
-    }
-    std::string fellfarbe = q_fellfarbe.toStdString();
+    std::string fellfarbe;
+    aufStringPruefen(ui->fellfarbeLineEdit, valid, fellfarbe);
 
     if (valid){
         Saeugetier *s = new Saeugetier(bezeichnung, alter, fellfarbe);
         animalList.insertAnimal(s);
-        aktualisiereListWidget();
+        aktualisiereWildtierListWidget();
         ui->nameWildtierLineEdit->clear();
         ui->alterWildtierLineEdit->clear();
         ui->fellfarbeLineEdit->clear();
@@ -234,36 +224,20 @@ void MainWindow::on_saeugetierPushButton_clicked()
 
 void MainWindow::on_vogelPushButton_clicked()
 {
-    QString q_bezeichnung = ui->nameWildtierLineEdit->text();
     bool valid = true;
-    bool ok1, ok2, ok3;
-    q_bezeichnung.toDouble(&ok1);
-    if (ok1 || q_bezeichnung.isEmpty()){
-        ui->nameWildtierLineEdit->setText("Falsch");
-        valid = false;
-    }
-    std::string bezeichnung = q_bezeichnung.toStdString();
+    std::string bezeichnung;
+    aufStringPruefen(ui->nameWildtierLineEdit, valid, bezeichnung);
 
-    QString q_alter = ui->alterWildtierLineEdit->text();
-    q_alter.toDouble(&ok2);
-    if (!ok2 || q_alter.isEmpty()){
-        ui->alterWildtierLineEdit->setText("Falsch");
-        valid = false;
-    }
-    int alter = q_alter.toInt();
+    int alter;
+    aufIntZahlPruefen(ui->alterWildtierLineEdit, valid, alter);
 
-    QString q_fluegelspannweite = ui->fluegelspannweiteLineEdit->text();
-    q_fluegelspannweite.toDouble(&ok3);
-    if (!ok3 || q_fluegelspannweite.isEmpty()){
-        ui->fluegelspannweiteLineEdit->setText("Falsch");
-        valid = false;
-    }
-    double fluegelspannweite = q_fluegelspannweite.toDouble();
+    double fluegelspannweite;
+    aufDoubleZahlPruefen(ui->fluegelspannweiteLineEdit, valid, fluegelspannweite);
 
     if (valid){
         Vogel *v = new Vogel(bezeichnung, alter, fluegelspannweite);
         animalList.insertAnimal(v);
-        aktualisiereListWidget();
+        aktualisiereWildtierListWidget();
         ui->nameWildtierLineEdit->clear();
         ui->alterWildtierLineEdit->clear();
         ui->fluegelspannweiteLineEdit->clear();
@@ -273,43 +247,27 @@ void MainWindow::on_vogelPushButton_clicked()
 
 void MainWindow::on_reptilPushButton_clicked()
 {
-    QString q_bezeichnung = ui->nameWildtierLineEdit->text();
     bool valid = true;
-    bool ok1, ok2, ok3;
-    q_bezeichnung.toDouble(&ok1);
-    if (ok1 || q_bezeichnung.isEmpty()){
-        ui->nameWildtierLineEdit->setText("Falsch");
-        valid = false;
-    }
-    std::string bezeichnung = q_bezeichnung.toStdString();
+    std::string bezeichnung;
+    aufStringPruefen(ui->nameWildtierLineEdit, valid, bezeichnung);
 
-    QString q_alter = ui->alterWildtierLineEdit->text();
-    q_alter.toDouble(&ok2);
-    if (!ok2 || q_alter.isEmpty()){
-        ui->alterWildtierLineEdit->setText("Falsch");
-        valid = false;
-    }
-    int alter = q_alter.toInt();
+    int alter;
+    aufIntZahlPruefen(ui->alterWildtierLineEdit, valid, alter);
 
-    QString q_giftig = ui->giftigLineEdit->text();
-    double checkBool = q_giftig.toDouble(&ok3);
-    if (!ok3 || (checkBool != 0 && checkBool != 1) || q_giftig.isEmpty()){
-        ui->giftigLineEdit->setText("Falsch");
-        valid = false;
-    }
-    bool giftig = (checkBool == 1);
+    bool giftig;
+    aufBoolPruefen(ui->giftigLineEdit, valid, giftig);
 
     if (valid){
         Reptil *r = new Reptil(bezeichnung, alter, giftig);
         animalList.insertAnimal(r);
-        aktualisiereListWidget();
+        aktualisiereWildtierListWidget();
         ui->nameWildtierLineEdit->clear();
         ui->alterWildtierLineEdit->clear();
         ui->giftigLineEdit->clear();
     }
 }
 
-void MainWindow::aktualisiereListWidget(){
+void MainWindow::aktualisiereWildtierListWidget(){
     ui->TierlisteListWidget->clear();
     for (auto &tier : animalList.getFauna()){
         QListWidgetItem *listWidgetItem = new QListWidgetItem(QString::fromStdString(tier->getInfo()));
@@ -317,17 +275,141 @@ void MainWindow::aktualisiereListWidget(){
     }
 }
 
+void MainWindow::aktualisierePersonalListWidget(){
+    ui->personalListeListWidget->clear();
+    for (auto &personal : personalList.getPersonal()){
+        QListWidgetItem *listWidgetItem = new QListWidgetItem(QString::fromStdString(personal->getInfo()));
+        ui->personalListeListWidget->addItem(listWidgetItem);
+    }
+}
+
 
 void MainWindow::on_binaerSpeichernPushButton_clicked()
 {
     animalList.binaerSpeichern();
-    aktualisiereListWidget();
+    aktualisiereWildtierListWidget();
 }
 
 
 void MainWindow::on_binaerLadenPushButton_clicked()
 {
     animalList.binaerLaden();
-    aktualisiereListWidget();
+    aktualisiereWildtierListWidget();
+}
+
+
+void MainWindow::on_rangerPushButton_clicked()
+{
+    bool valid = true;
+    std::string nachname;
+    aufStringPruefen(ui->nachnameLineEdit, valid, nachname);
+
+    std::string vorname;
+    aufStringPruefen(ui->vornameLineEdit, valid, vorname);
+
+    int personalnummer;
+    aufIntZahlPruefen(ui->persoNumLineEdit, valid, personalnummer);
+
+    int stundenzahl;
+    aufIntZahlPruefen(ui->stundenzahlLineEdit, valid, stundenzahl);
+
+    double gehalt;
+    aufDoubleZahlPruefen(ui->gehaltLineEdit, valid, gehalt);
+
+    std::string revier;
+    aufStringPruefen(ui->revierLineEdit, valid, revier);
+
+    std::string einsatzbereich;
+    aufStringPruefen(ui->einsatzbereichLineEdit, valid, einsatzbereich);
+
+    if (valid){
+        Ranger *r = new Ranger(nachname, vorname, personalnummer, stundenzahl, gehalt, revier, einsatzbereich);
+        personalList.insertPersonal(r);
+        aktualisierePersonalListWidget();
+        ui->nachnameLineEdit->clear();
+        ui->vornameLineEdit->clear();
+        ui->persoNumLineEdit->clear();
+        ui->stundenzahlLineEdit->clear();
+        ui->gehaltLineEdit->clear();
+        ui->revierLineEdit->clear();
+        ui->einsatzbereichLineEdit->clear();
+    }
+}
+
+void MainWindow::on_verwaltungPushButton_clicked()
+{
+    bool valid = true;
+    std::string nachname;
+    aufStringPruefen(ui->nachnameLineEdit, valid, nachname);
+
+    std::string vorname;
+    aufStringPruefen(ui->vornameLineEdit, valid, vorname);
+
+    int personalnummer;
+    aufIntZahlPruefen(ui->persoNumLineEdit, valid, personalnummer);
+
+    int stundenzahl;
+    aufIntZahlPruefen(ui->stundenzahlLineEdit, valid, stundenzahl);
+
+    double gehalt;
+    aufDoubleZahlPruefen(ui->gehaltLineEdit, valid, gehalt);
+
+    std::string abteilung;
+    aufStringPruefen(ui->abteilungLineEdit, valid, abteilung);
+
+    std::string buero;
+    aufStringPruefen(ui->bueroLineEdit, valid, buero);
+
+    if (valid){
+        Verwaltung *v = new Verwaltung(nachname, vorname, personalnummer, stundenzahl, gehalt, abteilung, buero);
+        personalList.insertPersonal(v);
+        aktualisierePersonalListWidget();
+        ui->nachnameLineEdit->clear();
+        ui->vornameLineEdit->clear();
+        ui->persoNumLineEdit->clear();
+        ui->stundenzahlLineEdit->clear();
+        ui->gehaltLineEdit->clear();
+        ui->abteilungLineEdit->clear();
+        ui->bueroLineEdit->clear();
+    }
+}
+
+
+void MainWindow::on_wissenschaftlerinPushButton_clicked()
+{
+    bool valid = true;
+    std::string nachname;
+    aufStringPruefen(ui->nachnameLineEdit, valid, nachname);
+
+    std::string vorname;
+    aufStringPruefen(ui->vornameLineEdit, valid, vorname);
+
+    int personalnummer;
+    aufIntZahlPruefen(ui->persoNumLineEdit, valid, personalnummer);
+
+    int stundenzahl;
+    aufIntZahlPruefen(ui->stundenzahlLineEdit, valid, stundenzahl);
+
+    double gehalt;
+    aufDoubleZahlPruefen(ui->gehaltLineEdit, valid, gehalt);
+
+    std::string fachgebiet;
+    aufStringPruefen(ui->fachgebietLineEdit, valid, fachgebiet);
+
+    int studienanzahl;
+    aufIntZahlPruefen(ui->anzahlStudienLineEdit, valid, studienanzahl);
+
+    if (valid){
+        Wissenschaftler *w = new Wissenschaftler(nachname, vorname, personalnummer, stundenzahl, gehalt, fachgebiet, studienanzahl);
+        personalList.insertPersonal(w);
+        aktualisierePersonalListWidget();
+        ui->nachnameLineEdit->clear();
+        ui->vornameLineEdit->clear();
+        ui->persoNumLineEdit->clear();
+        ui->stundenzahlLineEdit->clear();
+        ui->gehaltLineEdit->clear();
+        ui->fachgebietLineEdit->clear();
+        ui->anzahlStudienLineEdit->clear();
+    }
 }
 

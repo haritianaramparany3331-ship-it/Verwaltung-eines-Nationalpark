@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "tierliste.h"
+#include "personalliste.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,7 +18,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void aktualisiereListWidget();
+    void aktualisiereWildtierListWidget();
+    void aktualisierePersonalListWidget();
 
 private slots:
     void on_saeugetierPushButton_clicked();
@@ -30,8 +32,15 @@ private slots:
 
     void on_binaerLadenPushButton_clicked();
 
+    void on_rangerPushButton_clicked();
+
+    void on_verwaltungPushButton_clicked();
+
+    void on_wissenschaftlerinPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     Tierliste animalList;
+    Personalliste personalList;
 };
 #endif // MAINWINDOW_H

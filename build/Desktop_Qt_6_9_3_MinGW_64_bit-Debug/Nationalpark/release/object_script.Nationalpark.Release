@@ -1,0 +1,10 @@
+release/angestellter.o
+release/personalliste.o
+release/ranger.o
+release/reptil.o
+release/saeugetier.o
+release/spezies.o
+release/tierliste.o
+release/verwaltung.o
+release/vogel.o
+release/wissenschaftler.o

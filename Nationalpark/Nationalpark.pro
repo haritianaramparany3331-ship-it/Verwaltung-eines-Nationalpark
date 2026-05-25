@@ -5,16 +5,26 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        angestellter.cpp \
         hilffunktionen.cpp \
+        personalliste.cpp \
+        ranger.cpp \
         reptil.cpp \
         saeugetier.cpp \
         spezies.cpp \
         tierliste.cpp \
-        vogel.cpp
+        verwaltung.cpp \
+        vogel.cpp \
+        wissenschaftler.cpp
 
 HEADERS += \
+    angestellter.h \
+    personalliste.h \
+    ranger.h \
     reptil.h \
     saeugetier.h \
     spezies.h \
     tierliste.h \
-    vogel.h
+    verwaltung.h \
+    vogel.h \
+    wissenschaftler.h

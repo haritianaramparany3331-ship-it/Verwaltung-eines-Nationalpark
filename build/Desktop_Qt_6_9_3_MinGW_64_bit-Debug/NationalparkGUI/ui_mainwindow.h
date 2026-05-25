@@ -78,6 +78,9 @@ public:
     QHBoxLayout *horizontalLayout_10;
     QLabel *gehaltLabel;
     QLineEdit *gehaltLineEdit;
+    QHBoxLayout *horizontalLayout_17;
+    QLabel *stundenzahlLabel;
+    QLineEdit *stundenzahlLineEdit;
     QSpacerItem *verticalSpacer_3;
     QGroupBox *spezAttPersonalGroupBox;
     QVBoxLayout *verticalLayout_7;
@@ -439,6 +442,23 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout_10);
 
+        horizontalLayout_17 = new QHBoxLayout();
+        horizontalLayout_17->setObjectName("horizontalLayout_17");
+        stundenzahlLabel = new QLabel(gemAttPersonalGroupBox);
+        stundenzahlLabel->setObjectName("stundenzahlLabel");
+        sizePolicy2.setHeightForWidth(stundenzahlLabel->sizePolicy().hasHeightForWidth());
+        stundenzahlLabel->setSizePolicy(sizePolicy2);
+
+        horizontalLayout_17->addWidget(stundenzahlLabel);
+
+        stundenzahlLineEdit = new QLineEdit(gemAttPersonalGroupBox);
+        stundenzahlLineEdit->setObjectName("stundenzahlLineEdit");
+
+        horizontalLayout_17->addWidget(stundenzahlLineEdit);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_17);
+
         verticalSpacer_3 = new QSpacerItem(20, 9, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
         verticalLayout_6->addItem(verticalSpacer_3);
@@ -628,6 +648,7 @@ public:
         nachnameLabel->setText(QCoreApplication::translate("MainWindow", "Nachname:", nullptr));
         persoNumLabel->setText(QCoreApplication::translate("MainWindow", "Personalnummer:", nullptr));
         gehaltLabel->setText(QCoreApplication::translate("MainWindow", "Gehalt:", nullptr));
+        stundenzahlLabel->setText(QCoreApplication::translate("MainWindow", "Stundenzahl:", nullptr));
         spezAttPersonalGroupBox->setTitle(QCoreApplication::translate("MainWindow", "Spezifische Attribute", nullptr));
         revierLabel->setText(QCoreApplication::translate("MainWindow", "Revier:", nullptr));
         einsatzbereichLabel->setText(QCoreApplication::translate("MainWindow", "Einsatzbereich:", nullptr));
